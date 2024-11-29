@@ -41,7 +41,7 @@ jobs:
           uses: docker/build-push-action@v6
           with:
             push: true
-            cache-from: type=registry, ref=${{ secrets.DOCKER_REPO_NAME }}:cache
-            cache-to: type=registry, ref=${{ secrets.DOCKER_REPO_NAME }}:cache, mode=max
+            cache-from: type=registry,ref=${{ secrets.DOCKER_REPO_NAME }}:cache
+            cache-to: type=registry,ref=${{ secrets.DOCKER_REPO_NAME }}:cache, mode=max
             tags: ${{ secrets.DOCKER_REPO_NAME }}:${{ steps.set-sha-short.outputs.sha_short }}
             file: ./Dockerfile
