@@ -1,22 +1,20 @@
-name: Build and Push Docker to Dockerhub
+name: Build Cache and Push Docker to Dockerhub
 
 on:
     # Allows you to run this workflow manually from Actions tab
     workflow_dispatch:
-    workflow_run:
-      workflows: ["Build Cache and Push Docker to Dockerhub"]
-      types:
-        - completed
+      
     push:
-      branches:
-        - main
+      paths:
+      - 'package-lock.json'
+      - 'package.json'
 
 permissions:
   contents: 'read'
   packages: 'write'
 
 jobs:
-  build:
+  build-cache:
     runs-on: ubuntu-latest
     environment:
             name: main
@@ -41,6 +39,5 @@ jobs:
           uses: docker/build-push-action@v6
           with:
             push: true
-            cache-from: ${{ secrets.DOCKER_REPO_NAME }}:cache
-            tags: ${{ secrets.DOCKER_REPO_NAME }}:${{ steps.set-sha-short.outputs.sha_short }}
-            file: ./Dockerfile
+            tags: ${{ secrets.DOCKER_REPO_NAME }}:cache
+            file: ./Cache.Dockerfile
